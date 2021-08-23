@@ -1,4 +1,4 @@
-# Roulette Api - NodeJS + Redis
+# API Restful - NodeJS/ExpressJS + MongoDB
 
 ## Requirements
 ```sh
