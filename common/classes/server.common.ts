@@ -14,7 +14,7 @@ export class Server{
     }
     start( routes: Array<RoutesCommon> ){
         this.app.listen( this.port, ()=>{
-            debugLog(`Server running at http://localhost:${this.port}`);
+            debugLog(`::Server running at http://localhost:${this.port}`);
             routes.forEach((route: RoutesCommon) => {
                 debugLog(`Routes configured for: ${route.getName()}`);
             });

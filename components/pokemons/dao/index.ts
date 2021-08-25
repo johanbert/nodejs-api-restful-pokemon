@@ -20,7 +20,7 @@ class PokemonsDAO {
 
     async addPokemon(pokemonFields: CreatePokemonDto) {
         const pokemonId = shortid.generate();
-        pokemonFields.level = (pokemonFields.level) ? pokemonFields.likes : 1; 
+        pokemonFields.level = (pokemonFields.level) ? pokemonFields.level : 1; 
         pokemonFields.publicAccess = false; // false = private
         pokemonFields.likes = 0;
         const pokemon = new this.Pokemon({

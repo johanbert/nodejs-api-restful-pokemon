@@ -9,11 +9,12 @@ export const GLOBAL_CONFIG = {
   JWT_LIFETIME : Number(process.env.JWT_LIFETIME) || 60 * 1 // 1 minutes
 };
 
-export const DATABASES = {
+export const DBS = {
   MONGODB:{
-    SERVER: 'localhost' || process.env.DATABASES_MONGODB_SERVER,
-    PORT: '27017' || process.env.DATABASES_MONGODB_PORT,
-    NAME : 'test_57blocks' || process.env.DATABASES_MONGODB_NAME,
+    HOST: process.env.DBS_MONGODB_HOST || 'mongodb',
+    SERVER: process.env.DBS_MONGODB_SERVER || 'localhost',
+    PORT: process.env.DBS_MONGODB_PORT || '27017',
+    NAME : process.env.DBS_MONGODB_NAME || 'test_57blocks',
     // COLLECTIONS:{
     //   USERS: 'users',
     //   POKEMONS: 'pokemons',
