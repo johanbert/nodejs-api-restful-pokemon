@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import debug from 'debug';
-
+import { DBS } from "../../config/";
 const log: debug.IDebugger = debug('app:mongoose-service');
 
 class MongooseService {
@@ -11,6 +11,7 @@ class MongooseService {
         serverSelectionTimeoutMS: 5000,
         useFindAndModify: false,
     };
+    private connection = `${DBS.MONGODB.HOST}://${DBS.MONGODB.SERVER}/${DBS.MONGODB.NAME}`
 
     constructor() {
         this.connectWithRetry();
@@ -23,17 +24,18 @@ class MongooseService {
     connectWithRetry = () => {
         log('Attempting MongoDB connection (will retry if needed)');
         mongoose
-            .connect('mongodb://localhost:27017/test_57blocks', this.mongooseOptions)
+            .connect(this.connection, this.mongooseOptions)
             .then(() => {
-                log('MongoDB is connected');
+                log('MongoDB is connected', this.connection);
             })
             .catch((err) => {
-                const retrySeconds = 5;
+                const retrySeconds = 15;
                 log(
                     `MongoDB connection unsuccessful (will retry #${++this
                         .count} after ${retrySeconds} seconds):`,
                     err
                 );
+                log(this.connection)
                 setTimeout(this.connectWithRetry, retrySeconds * 1000);
             });
     };

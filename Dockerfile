@@ -1,11 +1,15 @@
-FROM node:alpine
- 
-WORKDIR '/home/node/app/'
+FROM node:14
 
-COPY ./package.json ./
+RUN mkdir -p /home/node/app/
+
+WORKDIR /home/node/app/
+
+COPY package.json ./
+
 RUN npm install
-COPY ./ ./
+
+COPY . .
 
 EXPOSE 3000
 
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "debug-docker"]

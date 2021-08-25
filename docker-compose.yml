@@ -1,33 +1,35 @@
 version : '3'
-
 services: 
-  mongodb:
-    image: mongo
+  mongo:
     build:
       context: .
-      dockerfile: mongo-seed/Dockerfile
+      dockerfile: ./mongo-seed/Dockerfile
+    container_name: mongo
+    restart: on-failure
     ports:
         - "27017:27017"
-    restart: always
-    command: sh -c 'mongod && mongoimport --uri "mongodb://localhost:27017/test_57blocks" --collection pokemons --type json --file ./public_pokemons.json'
-    #   sh -c 'mongoimport --uri "mongodb://mongo1:27018/test_57blocks" --collection pokemons --type json --file ./public_pokemons.json && mongod'
-    volumes:
-      - ./data:/data/db
+    expose:
+      - 27017
+
+  mongo_seed:
+    build:
+      context: .
+      dockerfile: ./mongo-seed/Dockerfile
+    container_name: mongo_seed
+    links:
+      - mongo
+    command:
+      - ./init.sh
 
   pokemon-api:
-    image: 'nodejs:alpine'
+    container_name: pokemon-api
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: pokemon-api
-    restart: unless-stopped
     env_file: ./.env
-    # environment:
-    #   DB_HOST: mongodb
     ports:
       - "3000:3000"
-    command:
-      sh -c 'npm i && npm run start'
     links: 
-      - mongodb
-    
+      - mongo
+    expose:
+      - 3000

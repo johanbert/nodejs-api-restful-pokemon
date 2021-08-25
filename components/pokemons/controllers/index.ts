@@ -14,7 +14,7 @@ class PokemonsController {
     async createPokemon(req: express.Request, res: express.Response) {
         req.body.userId = res.locals.userId;
         const pokemonId = await PokemonsService.create(req.body);
-        res.status(201).send({ id: pokemonId });
+        res.status(201).send( pokemonId );
     }
     async patchPokemon(req: express.Request, res: express.Response) {
         req.body.userId = res.locals.userId;
@@ -23,7 +23,7 @@ class PokemonsController {
     }
     async deletePokemon(req: express.Request, res: express.Response) {
         const pokemonId = await PokemonsService.deleteById(req.params.pokemonId);
-        res.status(201).send({ id: pokemonId });
+        res.status(201).send( pokemonId );
     }
 }
 
